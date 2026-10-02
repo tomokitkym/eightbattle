@@ -2598,6 +2598,16 @@ body:has(#title-screen[style*="display: flex"]) #setup-title-btn{
   display:none !important;
 }
 </style>
+
+<style id="pause-button-state-final">
+/* ポーズボタンの表示状態をJSのゲームフェーズに完全連動 */
+#battle-pause-btn[hidden],
+#battle-pause-btn[aria-hidden="true"]{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+</style>
 </head>
 <body>
   <div id="title-screen">
@@ -3249,7 +3259,11 @@ function getAttackDamage(piece, r, c) {
       if (titleScreen) titleScreen.style.display = 'none';
       if (gameHeader) gameHeader.style.display = 'none';
       const pauseBtn = document.getElementById('battle-pause-btn');
-      if (pauseBtn) pauseBtn.style.display = 'none';
+      if (pauseBtn) {
+        pauseBtn.style.display = 'none';
+        pauseBtn.hidden = true;
+        pauseBtn.setAttribute('aria-hidden','true');
+      }
       resetGame();
       if (gameHeader) gameHeader.style.display = 'none';
     }
@@ -3768,7 +3782,14 @@ function toggleDifficulty() {
         const title = document.getElementById('setup-screen-title');
         if (title) title.textContent = gamePhase === 'SETUP_P2' ? '2Pの編成' : '1Pの編成';
         const pauseBtn = document.getElementById('battle-pause-btn');
-        if (pauseBtn) pauseBtn.style.display = gamePhase === 'BATTLE' && titleScreen?.style.display !== 'flex' ? 'block' : 'none';
+        // ポーズボタンは「対戦中」だけ表示。タイトル・編成・結果画面では必ず非表示。
+        if (pauseBtn) {
+          const isTitleVisible = titleScreen && getComputedStyle(titleScreen).display !== 'none';
+          const shouldShowPause = gamePhase === 'BATTLE' && !isTitleVisible;
+          pauseBtn.style.display = shouldShowPause ? 'block' : 'none';
+          pauseBtn.hidden = !shouldShowPause;
+          pauseBtn.setAttribute('aria-hidden', shouldShowPause ? 'false' : 'true');
+        }
         const setupTitleBtn = document.getElementById('setup-title-btn');
         if (setupTitleBtn) setupTitleBtn.style.display = gamePhase.startsWith('SETUP') ? 'block' : 'none';
       }
