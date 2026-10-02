@@ -2589,10 +2589,12 @@ img.piece-weapon {
   }
 }
 </style>
-<style id="title-pause-hide-final">
-/* タイトル画面ではポーズボタンを絶対に表示しない */
+<style id="title-screen-buttons-hide-final">
+/* タイトル画面ではゲーム中のボタンを絶対に表示しない */
 #title-screen[style*="display: flex"] ~ #main-area #battle-pause-btn,
-#main-area[style*="display: none"] #battle-pause-btn{
+#main-area[style*="display: none"] #battle-pause-btn,
+#title-screen[style*="display: flex"] ~ #setup-title-btn,
+body:has(#title-screen[style*="display: flex"]) #setup-title-btn{
   display:none !important;
 }
 </style>
@@ -3396,6 +3398,8 @@ function confirmNames() {
       if(gameHeader) gameHeader.style.display='none'; if(document.getElementById('main-area')) document.getElementById('main-area').style.display='none';
       const pauseBtn = document.getElementById('battle-pause-btn');
       if (pauseBtn) pauseBtn.style.display='none';
+      const setupTitleBtn = document.getElementById('setup-title-btn');
+      if (setupTitleBtn) setupTitleBtn.style.display='none';
       if(titleScreen) titleScreen.style.display='flex';
       updateModeSelection();
     }
