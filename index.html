@@ -2608,6 +2608,15 @@ body:has(#title-screen[style*="display: flex"]) #setup-title-btn{
   pointer-events:none !important;
 }
 </style>
+<style id="setup-pause-hide-final">
+/* 編成画面ではポーズボタンを完全に非表示 */
+body:has(#setup-screen[style*="display: flex"]) #battle-pause-btn,
+body:has(#setup-screen:not([style*="display: none"])) #battle-pause-btn{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+}
+</style>
 </head>
 <body>
   <div id="title-screen">
@@ -3785,7 +3794,9 @@ function toggleDifficulty() {
         // ポーズボタンは「対戦中」だけ表示。タイトル・編成・結果画面では必ず非表示。
         if (pauseBtn) {
           const isTitleVisible = titleScreen && getComputedStyle(titleScreen).display !== 'none';
-          const shouldShowPause = gamePhase === 'BATTLE' && !isTitleVisible;
+          const setupScreen = document.getElementById('setup-screen');
+       const isSetupVisible = setupScreen && getComputedStyle(setupScreen).display !== 'none';
+       const shouldShowPause = gamePhase === 'BATTLE' && !isTitleVisible && !isSetupVisible;
           pauseBtn.style.display = shouldShowPause ? 'block' : 'none';
           pauseBtn.hidden = !shouldShowPause;
           pauseBtn.setAttribute('aria-hidden', shouldShowPause ? 'false' : 'true');
