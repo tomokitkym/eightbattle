@@ -2545,25 +2545,26 @@ img.piece-weapon {
 
 
 <style id="mobile-pause-button-fix-v2">
-/* スマホ：ポーズボタンをボードの外、画面最上部中央へ移動 */
+/* スマホ：対戦中のポーズボタンをボードの下へ移動 */
 @media(max-width:700px){
   #battle-pause-btn{
     position:fixed !important;
-    top:6px !important;
+    top:auto !important;
     left:50% !important;
     right:auto !important;
-    bottom:auto !important;
+    bottom:10px !important;
     transform:translateX(-50%) !important;
     margin:0 !important;
     display:block !important;
     width:max-content !important;
-    padding:6px 12px !important;
+    padding:7px 14px !important;
     z-index:2000 !important;
     box-sizing:border-box !important;
   }
   #battle-pause-btn:hover{transform:translateX(-50%) translateY(-1px) !important;}
   #battle-pause-btn:active{transform:translateX(-50%) !important;}
-  #main-area.battle-mode{padding-top:52px !important;}
+  /* ボードがポーズボタンに重ならないよう、下側に余白を確保 */
+  #main-area.battle-mode{padding-top:0 !important; padding-bottom:60px !important;}
 }
 </style>
 </head>
