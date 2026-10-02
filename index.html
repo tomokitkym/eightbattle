@@ -2544,27 +2544,26 @@ img.piece-weapon {
 </style>
 
 
-<style id="mobile-pause-button-fix">
-/* スマホ：ポーズボタンを通常の画面レイアウト内に置き、ボードと重ならないようにする */
-@media (max-width:700px){
+<style id="mobile-pause-button-fix-v2">
+/* スマホ：ポーズボタンをボードの外、画面最上部中央へ移動 */
+@media(max-width:700px){
   #battle-pause-btn{
-    position:relative !important;
-    top:auto !important;
+    position:fixed !important;
+    top:6px !important;
+    left:50% !important;
     right:auto !important;
-    left:auto !important;
     bottom:auto !important;
-    display:block;
+    transform:translateX(-50%) !important;
+    margin:0 !important;
+    display:block !important;
     width:max-content !important;
-    margin:6px 10px 0 auto !important;
-    padding:7px 10px !important;
-    z-index:1300 !important;
+    padding:6px 12px !important;
+    z-index:2000 !important;
     box-sizing:border-box !important;
   }
-  /* ボタン自身が高さを確保するので、盤面を押し下げて重なりを防止 */
-  #action-toast{
-    position:relative !important;
-    z-index:1 !important;
-  }
+  #battle-pause-btn:hover{transform:translateX(-50%) translateY(-1px) !important;}
+  #battle-pause-btn:active{transform:translateX(-50%) !important;}
+  #main-area.battle-mode{padding-top:52px !important;}
 }
 </style>
 </head>
