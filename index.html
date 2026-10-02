@@ -2545,20 +2545,25 @@ img.piece-weapon {
 
 
 <style id="mobile-pause-button-fix">
-/* スマホ：ポーズボタンをボード上ではなくヘッダー内に配置 */
+/* スマホ：ポーズボタンを通常の画面レイアウト内に置き、ボードと重ならないようにする */
 @media (max-width:700px){
-  #game-header{
-    position:relative !important;
-  }
   #battle-pause-btn{
-    top:6px !important;
-    right:8px !important;
+    position:relative !important;
+    top:auto !important;
+    right:auto !important;
+    left:auto !important;
+    bottom:auto !important;
+    display:block;
+    width:max-content !important;
+    margin:6px 10px 0 auto !important;
     padding:7px 10px !important;
     z-index:1300 !important;
-  }
-  #game-header h1{
-    padding-right:100px !important;
     box-sizing:border-box !important;
+  }
+  /* ボタン自身が高さを確保するので、盤面を押し下げて重なりを防止 */
+  #action-toast{
+    position:relative !important;
+    z-index:1 !important;
   }
 }
 </style>
