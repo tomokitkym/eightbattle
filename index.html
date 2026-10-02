@@ -2543,6 +2543,25 @@ img.piece-weapon {
 }
 </style>
 
+
+<style id="mobile-pause-button-fix">
+/* スマホ：ポーズボタンをボード上ではなくヘッダー内に配置 */
+@media (max-width:700px){
+  #game-header{
+    position:relative !important;
+  }
+  #battle-pause-btn{
+    top:6px !important;
+    right:8px !important;
+    padding:7px 10px !important;
+    z-index:1300 !important;
+  }
+  #game-header h1{
+    padding-right:100px !important;
+    box-sizing:border-box !important;
+  }
+}
+</style>
 </head>
 <body>
   <div id="title-screen">
@@ -5407,5 +5426,4 @@ body.player2-theme #battle-pause-btn{background:var(--p2-btn)!important;color:#f
 <style id="title-version-lower-adjust-2">
 #title-screen .title-version{bottom:-32px !important;}
 </style>
-
 
