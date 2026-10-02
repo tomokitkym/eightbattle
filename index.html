@@ -2567,6 +2567,35 @@ img.piece-weapon {
   #main-area.battle-mode{padding-top:0 !important; padding-bottom:60px !important;}
 }
 </style>
+
+<style id="pause-above-piece-info-final">
+/* 対戦中：ポーズをコマの説明の直上へ */
+#main-area .side-panel #battle-pause-btn{
+  position:static !important;
+  display:block !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:0 0 8px 0 !important;
+  transform:none !important;
+}
+#main-area .side-panel #battle-pause-btn:hover{transform:translateY(-2px) !important;}
+#main-area .side-panel #battle-pause-btn:active{transform:translateY(0) !important;}
+@media(max-width:700px){
+  #main-area .side-panel #battle-pause-btn{
+    position:static !important;
+    top:auto !important; right:auto !important; bottom:auto !important; left:auto !important;
+    margin:0 0 8px 0 !important;
+    width:100% !important;
+  }
+}
+</style>
+<style id="title-pause-hide-final">
+/* タイトル画面ではポーズボタンを絶対に表示しない */
+#title-screen[style*="display: flex"] ~ #main-area #battle-pause-btn,
+#main-area[style*="display: none"] #battle-pause-btn{
+  display:none !important;
+}
+</style>
 </head>
 <body>
   <div id="title-screen">
@@ -2585,7 +2614,6 @@ img.piece-weapon {
     <h1>EIGHTBATTLE</h1>
     <div class="header-turn" id="header-turn">P1</div>
   </header>
-  <button id="battle-pause-btn" class="pause-btn" type="button" onclick="openPause()" style="display:none;">ポーズ</button>
   <button id="setup-title-btn" class="pause-btn" type="button" onclick="backToTitle()" style="display:none;">タイトルに戻る</button>
 
   <div id="action-toast">アクション</div>
@@ -2596,6 +2624,7 @@ img.piece-weapon {
       <div id="board"></div>
       <div class="side-panel">
         <div id="status">P1（黒）：盤面にコマを8人配置してください</div>
+        <button id="battle-pause-btn" class="pause-btn" type="button" onclick="openPause()" style="display:none;">ポーズ</button>
         <div id="life-display" class="hp-info">コマを選択すると詳細が表示されます</div>
         <div id="setup-panel">
           <div class="setup-player-name" id="setup-player-name">
@@ -3217,6 +3246,8 @@ function getAttackDamage(piece, r, c) {
       if (nameModal) nameModal.style.display = 'none';
       if (titleScreen) titleScreen.style.display = 'none';
       if (gameHeader) gameHeader.style.display = 'none';
+      const pauseBtn = document.getElementById('battle-pause-btn');
+      if (pauseBtn) pauseBtn.style.display = 'none';
       resetGame();
       if (gameHeader) gameHeader.style.display = 'none';
     }
@@ -3363,6 +3394,8 @@ function confirmNames() {
       graveyard={1:[],2:[]}; gamePhase='SETUP_P1'; turn=1; lastWinner=null;
       if(pauseModal) pauseModal.style.display='none'; if(winModal) winModal.style.display='none'; if(nameModal) nameModal.style.display='none';
       if(gameHeader) gameHeader.style.display='none'; if(document.getElementById('main-area')) document.getElementById('main-area').style.display='none';
+      const pauseBtn = document.getElementById('battle-pause-btn');
+      if (pauseBtn) pauseBtn.style.display='none';
       if(titleScreen) titleScreen.style.display='flex';
       updateModeSelection();
     }
@@ -3731,7 +3764,7 @@ function toggleDifficulty() {
         const title = document.getElementById('setup-screen-title');
         if (title) title.textContent = gamePhase === 'SETUP_P2' ? '2Pの編成' : '1Pの編成';
         const pauseBtn = document.getElementById('battle-pause-btn');
-        if (pauseBtn) pauseBtn.style.display = gamePhase === 'BATTLE' ? 'block' : 'none';
+        if (pauseBtn) pauseBtn.style.display = gamePhase === 'BATTLE' && titleScreen?.style.display !== 'flex' ? 'block' : 'none';
         const setupTitleBtn = document.getElementById('setup-title-btn');
         if (setupTitleBtn) setupTitleBtn.style.display = gamePhase.startsWith('SETUP') ? 'block' : 'none';
       }
